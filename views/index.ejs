@@ -7,6 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://use.typekit.net/yms6fel.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('#the-form').submit(function(evt) {
+        evt.preventDefault();
+        var form = $('#the-form');
+        var dat = {};
+        $.each(form.serializeArray(), function() {
+          dat[this.name] = this.value.trim();
+        });
+        var fields = ['name', 'company', 'email', 'product', 'whyus', 'g-recaptcha-response'];
+        var ok = true;
+        $.each(fields, function() {
+          if (dat[this] == "") {
+            ok = false;
+          }
+        });
+        // if (!ok) {
+        //   alert('Please fill out all fields');
+        //   return;
+        // }
+        $.post({
+          url: '/form',
+          data: dat,
+          dataType: 'json',
+          success: function(dat, stat, xhr) {
+            console.log("got server response:", dat, "status", stat, "xhr", xhr);
+          }
+        });
+        form.toggle({duration: 200});
+        $("#back2u").toggle({duration: 200});
+        return false;
+      });
+    });
+    </script>
   </head>
   <body class="tk-acumin-pro">
     <section class="header">
@@ -19,36 +55,45 @@
           <span class="number">1</span>
           <span class="number-title">Fill out the form</span>
         </div>
-        <form class="the-form">
+        <form id="the-form" class="the-form">
           <div class="form-section">
             <label for="name">Your name</label>
-            <input id="name" name="name" />
+            <input id="name" required minlength="2" name="name" />
           </div>
 
           <div class="form-section">
             <label for="email">Your email address</label>
-            <input id="email" name="email" />
+            <input id="email" required name="email" type="email" />
           </div>
 
           <div class="form-section">
             <label for="company">Your company</label>
-            <input id="company" name="company" />
+            <input id="company" required minlength="2" name="company" />
           </div>
 
           <div class="form-section">
             <label for="product">Describe your company</label>
-            <textarea id="product" name="product"></textarea>
+            <textarea id="product" required name="product"></textarea>
           </div>
 
           <div class="form-section">
             <label for="whyus">Why do you want a Sam Video?</label>
-            <textarea id="whyus" name="whyus"></textarea>
+            <textarea id="whyus" required name="whyus"></textarea>
           </div>
+
+          <div class="g-recaptcha" data-sitekey="6LeC8gwUAAAAADuoO_tY86lVB-516_D8LnmYLA0R"></div>
 
           <div class="submit-section">
             <button type="submit">SEND</button>
           </div>
         </form>
+      </div>
+      
+      <div class="item" id="back2u">
+        <div class="item-title">
+          <span class="number">2</span>
+          <span class="number-title">We'll get back to you</span>
+        </div>
       </div>
     </section>
 

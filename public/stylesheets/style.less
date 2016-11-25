@@ -132,6 +132,13 @@ body section {
   margin: 0 auto;
 }
 
+.g-recaptcha {
+  margin-top: 19px;
+  @media only screen and (min-device-width: 320px) and (max-device-width: 640px) {
+    margin-left: 15px;
+  }
+}
+
 .submit-section {
   margin: 20px 0;
 
@@ -140,6 +147,7 @@ body section {
     margin: 20px auto;
   }
   button {
+    cursor: pointer;
     background-color: #2A8CFF;
     border-radius: 10px;
     border: none;
@@ -150,6 +158,21 @@ body section {
     @media only screen and (min-device-width: 320px) and (max-device-width: 640px) {
       font-size: 20px;
       height: 60px;
+    }
+    &:hover {
+      background-color: #0076FF;
+    }
+  }
+}
+
+#back2u {
+  display: none;
+  font-size: 53px;
+  
+  .number-title {
+    @media only screen and (min-device-width: 320px) and (max-device-width: 640px) {
+      font-size: 28px;
+      margin-left: 4px;
     }
   }
 }
